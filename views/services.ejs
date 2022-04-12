@@ -1,23 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-	<!-- include pra simplificar o código, pegando toda a parte estática que constitua <head> e colocando dentro de uma "classe"-->
-	<%- include("inc/head") -%>
-	<body>
-		
-	<div class="gtco-loader"></div>
-	
-	<div id="page">
-	
-		<%- include('inc/header-menu') -%>
-		<%- include('inc/header') -%>
+	<%- include('inc/page-header') -%>
 		<%- include('inc/content/features') -%>
-		<%-include('inc/footer')-%>
-
-	</div> <!-- div do page -->
-
-<%-include('inc/footer-gototop')-%>
-<%-include('inc/footer-scripts')-%>
-
-	</body>
-</html>
+	<%- include('inc/page-footer') -%>
 

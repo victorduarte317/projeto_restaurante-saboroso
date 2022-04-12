@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+
+<!-- include pra simplificar o código, pegando toda a parte estática que constitua <head> e colocando dentro de uma "classe"-->
+<%- include("head") -%>
+
+<body>
+
+	<div class="gtco-loader"></div>
+
+	<div id="page">
+
+    <%- include('header-menu') -%>
+
+    <% if (typeof isHome === 'boolean' && isHome) { %> <!-- Se for boolean, a variável foi definida.-->
+        <%- console.log('chegou dentro do if') -%>
+        <%- include('header-index') -%>
+    <% } else { %> 
+        <%- console.log('chegou dentro do else') -%>
+        <%- include('header') -%>
+    <% } %>
+
+
+    
+    
