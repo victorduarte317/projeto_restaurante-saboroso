@@ -2,10 +2,27 @@ var express = require("express");
 var users = require("./../inc/users");
 var router = express.Router();
 
-router.get("/", function(req, res, next) {
+router.use((req, res, next)=>{ // criando o middleware
 
-    res.render("admin/index");
+    if (['/login'].indexOf(req.url) === -1 && !req.session.user) { // se req.url nao estiver dentro do index de /login && nao tiver uma sessao com user
+        res.redirect("/admin/login") // redireciona o usuário pra tela de login
+    } else {
+        next();
+    }
 
+}); 
+
+router.get("/logout", (req, res, next)=>{
+
+    delete req.session.user;
+
+    res.redirect("/admin/login");
+
+});
+
+router.get("/", function(req, res, next) {  
+
+        res.render("admin/index");
 });
 
 router.post("/login", function(req, res, next){
