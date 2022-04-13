@@ -83,7 +83,7 @@ router.post('/reservations', function(req, res, next){
   } else if(!req.body.date) {
     reservations.render(req, res, "Informe a data.");
   } else if(!req.body.time) {
-    reservations.render(req, res, "Informe o horário desejado para a reserva.");
+    reservations.render(req, res, "Por favor, informe o horário desejado para a reserva.");
   } else {
     
     reservations.save(req.body).then(results =>{
