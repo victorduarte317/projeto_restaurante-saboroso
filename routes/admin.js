@@ -13,7 +13,7 @@ router.get("/login", function(req, res, next) {
 
     console.log("SESSION", req.session.views++);
     res.render("admin/login");
-
+    
 });
 
 router.get("/contacts", function(req, res, next) {
