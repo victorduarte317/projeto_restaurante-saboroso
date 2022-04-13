@@ -1,5 +1,6 @@
 var express = require("express");
 var users = require("./../inc/users");
+var admin = require("./../inc/admin");
 var router = express.Router();
 
 router.use((req, res, next)=>{ // criando o middleware
@@ -12,6 +13,14 @@ router.use((req, res, next)=>{ // criando o middleware
 
 }); 
 
+router.use((req, res, next)=>{
+
+    req.menus= admin.getMenus();
+
+    next();
+
+});
+
 router.get("/logout", (req, res, next)=>{
 
     delete req.session.user;
@@ -20,12 +29,14 @@ router.get("/logout", (req, res, next)=>{
 
 });
 
-router.get("/", function(req, res, next) {  
+router.get("/", ((req, res, next) => {  
 
-        res.render("admin/index");
-});
+        res.render("admin/index", {
+            menus: req.menus
+        });
+}));
 
-router.post("/login", function(req, res, next){
+router.post("/login", ((req, res, next) => {
     
 if(!req.body.email) {
     users.render(req, res, "Insira o email.");
@@ -44,44 +55,53 @@ if(!req.body.email) {
     })
 }
 
-});
+}));
 
-router.get("/login", function(req, res, next) {
+router.get("/login", ((req, res, next) => {
 
     users.render(req, res, null);
 
-});
+}));
 
-router.get("/contacts", function(req, res, next) {
+router.get("/contacts", ((req, res, next) => {
 
-    res.render("admin/contacts");
-
-});
-
-router.get("/emails", function(req, res, next) {
-
-    res.render("admin/emails");
-
-});
-
-router.get("/menus", function(req, res, next) {
-
-    res.render("admin/menus");
-
-});
-
-router.get("/reservations", function(req, res, next) {
-
-    res.render("admin/reservations", {
-        date: {}
+    res.render("admin/contacts", {
+        menus: req.menus
     });
 
-});
+}));
 
-router.get("/users", function(req, res, next) {
+router.get("/emails", ((req, res, next) => {
 
-    res.render("admin/users");
+    res.render("admin/emails", {
+        menus: req.menus
+    });
 
-});
+}));
+
+router.get("/menus", ((req, res, next) => {
+
+    res.render("admin/menus"), {
+        menus: req.menus
+    };
+
+}));
+
+router.get("/reservations", ((req, res, next) => {
+
+    res.render("admin/reservations", {
+        date: {},
+        menus: req.menus 
+    });
+
+}));
+
+router.get("/users", ((req, res, next) => {
+
+    res.render("admin/users", {
+        menus: req.menus
+    });
+
+}));
 
 module.exports = router;
