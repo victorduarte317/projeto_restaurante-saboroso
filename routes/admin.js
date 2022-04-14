@@ -13,15 +13,15 @@ router.use((req, res, next)=>{ // criando o middleware
 
 }); 
 
-router.use((req, res, next)=>{
+router.use(function(req, res, next) {
 
-    req.menus= admin.getMenus();
+    req.menus = admin.getMenus(req);
 
     next();
 
 });
 
-router.get("/logout", (req, res, next)=>{
+router.get("/logout", function(req, res, next) {
 
     delete req.session.user;
 
@@ -29,14 +29,12 @@ router.get("/logout", (req, res, next)=>{
 
 });
 
-router.get("/", ((req, res, next) => {  
+router.get("/", function(req, res, next) {  
 
-        res.render("admin/index", {
-            menus: req.menus
-        });
-}));
+        res.render("admin/index", admin.getParams(req));
+    });
 
-router.post("/login", ((req, res, next) => {
+router.post("/login", function(req, res, next) {
     
 if(!req.body.email) {
     users.render(req, res, "Insira o email.");
@@ -55,53 +53,44 @@ if(!req.body.email) {
     })
 }
 
-}));
+});
 
-router.get("/login", ((req, res, next) => {
+router.get("/login", function(req, res, next) {
 
     users.render(req, res, null);
 
-}));
+});
 
-router.get("/contacts", ((req, res, next) => {
+router.get("/contacts", function(req, res, next) {
 
-    res.render("admin/contacts", {
-        menus: req.menus
-    });
+    res.render("admin/contacts", admin.getParams(req));
 
-}));
+});
 
-router.get("/emails", ((req, res, next) => {
+router.get("/emails", function(req, res, next) {
 
-    res.render("admin/emails", {
-        menus: req.menus
-    });
+    res.render("admin/emails", admin.getParams(req));
 
-}));
+});
 
-router.get("/menus", ((req, res, next) => {
+router.get("/menus", function(req, res, next) {
 
-    res.render("admin/menus"), {
-        menus: req.menus
-    };
+    res.render("admin/menus", admin.getParams(req));
 
-}));
+});
 
-router.get("/reservations", ((req, res, next) => {
+router.get("/reservations", function(req, res, next) {
 
-    res.render("admin/reservations", {
-        date: {},
-        menus: req.menus 
-    });
+    res.render("admin/reservations", admin.getParams(req, {
+        date: {}
+    }));
 
-}));
+});
 
-router.get("/users", ((req, res, next) => {
+router.get("/users", function(req, res, next) {
 
-    res.render("admin/users", {
-        menus: req.menus
-    });
+    res.render("admin/users", admin.getParams(req));
 
-}));
+});
 
 module.exports = router;

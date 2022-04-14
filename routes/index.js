@@ -6,7 +6,7 @@ var contacts = require('./../inc/contacts');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', ((req, res, next) => {
 
   menus.getMenus().then(results => {
 
@@ -18,17 +18,17 @@ router.get('/', function(req, res, next) {
 
   });
 
-});
+}));
 
 // criando a rota pra renderizar os outros arquivos
 
-router.get('/contacts', function(req, res, next){
+router.get('/contacts', ((req, res, next) => {
 
   contacts.render(req, res);
 
-});
+}));
 
-router.post('/contacts', function(req, res, next){
+router.post('/contacts', ((req, res, next) => {
 
   if (!req.body.name) {
     contacts.render(req, res, "Digite o nome.");
@@ -37,7 +37,7 @@ router.post('/contacts', function(req, res, next){
   } else if (!req.body.message) {
     contacts.render(req, res, "Insira sua mensagem.")
   } else {
-    contacts.save(req.body).then(results =>{
+    contacts.save(req.body).then(results => {
 
       contacts.render(req, res, null, "Mensagem enviada! Retornaremos assim que possível.")
     
@@ -47,11 +47,11 @@ router.post('/contacts', function(req, res, next){
     });
   }
 
-});
+}));
 
 
 
-router.get('/menus', function(req, res, next){
+router.get('/menus', ((req, res, next) => {
 
   menus.getMenus().then(results => {
 
@@ -64,15 +64,15 @@ router.get('/menus', function(req, res, next){
 
   }); 
 
-});
+}));
 
-router.get('/reservations', function(req, res, next){
+router.get('/reservations', ((req, res, next) => {
 
   reservations.render(req, res);
 
-});
+}));
 
-router.post('/reservations', function(req, res, next){
+router.post('/reservations', ((req, res, next) => {
 
   if(!req.body.name) {
     reservations.render(req, res, "Digite o nome.");
@@ -97,9 +97,9 @@ router.post('/reservations', function(req, res, next){
     });
   }
 
-});
+}));
 
-router.get('/services', function(req, res, next){
+router.get('/services', ((req, res, next) => {
 
   res.render('services', {
     title: 'Serviços - Restaurante saboroso!',
@@ -107,7 +107,7 @@ router.get('/services', function(req, res, next){
     h1: 'É um prazer poder servir!',
   });
 
-});
+}));
 
 
 module.exports = router;
