@@ -43,7 +43,7 @@
                   <td><%= row.title %></td>
                   <td><%= row.description %></td>
                   <td><%= row.price %></td>
-                  <td><button type="button" class="btn btn-xs btn-info btn-update" data-toggle="modal" data-target="#modal-update"><i
+                  <td><button type="button" class="btn btn-xs btn-info btn-update"><i
                         class="fa fa-pencil"></i> Editar</button>&nbsp;<button type="button" class="btn btn-xs btn-danger btn-delete"><i
                         class="fa fa-trash"></i> Excluir</button></td>
                 </tr>
@@ -164,5 +164,43 @@
         });
 
       });
+
+      let formUpdate = document.querySelector("#modal-update form");
+
+      [...document.querySelectorAll('.btn-update')].forEach(btn => {
+
+        btn.addEventListener('click', e => {
+ 
+          let tr = e.composedPath().find(el => { // vai passar elemento por elemento procurando
+
+            return(el.tagName.toUpperCase() === 'TR');
+
+          });
+
+          let data = JSON.parse(tr.dataset.row);
+
+          for (let name in data) {
+
+            switch (name) {
+              
+              case 'photo':
+
+              break;
+
+              default:
+                // pega o valor do tr e bota no input
+                let input = formUpdate.querySelector(`[name=${name}`);
+                if (input) input.value = data[name]; 
+            }
+
+          }
+
+          $('#modal-update').modal('show');
+
+        });
+
+      });
+
+
 
     </script>
