@@ -130,7 +130,7 @@ module.exports = {
                 FROM tb_reservations
                 WHERE
                     date BETWEEN ? AND ?
-                GROUP BY YEAR(date) DESC, MONTH(date) DESC
+                GROUP BY YEAR(date), MONTH(date)
                 ORDER BY YEAR(date) DESC, MONTH(date) DESC;
             `, [
                 req.query.start,
@@ -142,10 +142,9 @@ module.exports = {
                     let values = [];
 
                     results.forEach(row=>{
-
                         months.push(moment(row.date).format('MMM YYYY'));
                         values.push(row.total);
-                    });
+                    })
 
                     resolve({
                         months,

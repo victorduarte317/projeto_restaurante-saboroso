@@ -184,7 +184,6 @@ router.get("/reservations/chart", function(req, res, next) {
     reservations.chart(req).then(chartData =>{
 
         res.send(chartData);
-
     });
 
 });
