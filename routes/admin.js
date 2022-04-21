@@ -6,9 +6,12 @@ var reservations = require("./../inc/reservations");
 var contacts = require('./../inc/contacts');
 var emails = require('./../inc/emails');
 var moment = require("moment");
+const { query } = require("express");
 var router = express.Router();
 
-moment.locale("pt-BR");
+module.exports = function(io) {
+
+    moment.locale("pt-BR");
 
 router.use((req, res, next)=>{ // criando o middleware
 
@@ -47,6 +50,16 @@ router.get("/", function(req, res, next) {
     }).catch(err => {
         console.error(err);
     })
+});
+
+router.get("/dashboard", function(req, res, next) {
+
+    reservations.dashboard().then(data=>{
+
+        res.send(data);
+
+    });
+
 });
 
 router.post("/login", function(req, res, next) {
@@ -89,6 +102,7 @@ router.delete("/contacts/:id", function(req, res, next) {
 
     contacts.delete(req.params.id).then(results=>{
         
+        io.emit('dashboard update');
         res.send(results)
 
     }).catch(err=>{
@@ -110,8 +124,10 @@ router.get("/emails", function(req, res, next) {
 router.delete("/emails/:id", function(req, res, next) {
 
     emails.delete(req.params.id).then(results=>{
+        
+        io.emit('dashboard update');
         res.send(results)
-
+        
     }).catch(err=>{
 
         res.send(err);
@@ -135,6 +151,7 @@ router.post('/menus', function(req, res,next) {
 
     menus.save(req.fields, req.files).then(results =>{
         
+        io.emit('dashboard update');
         res.send(results);
 
     }).catch((err) => {
@@ -147,8 +164,9 @@ router.post('/menus', function(req, res,next) {
 router.delete("/menus/:id", function(req, res, next){ // recebe o id via URL
     menus.delete(req.params.id).then(results => {
 
+        io.emit('dashboard update');
         res.send(results);
-
+        
     }).catch(err => {
 
         res.send(err);
@@ -192,6 +210,7 @@ router.post('/reservations', function(req, res,next) {
 
     reservations.save(req.fields, req.files).then(results =>{
         
+        io.emit('dashboard update');
         res.send(results);
 
     }).catch((err) => {
@@ -204,6 +223,7 @@ router.post('/reservations', function(req, res,next) {
 router.delete("/reservations/:id", function(req, res, next){ // recebe o id via URL
     reservations.delete(req.params.id).then(results => {
 
+        io.emit('dashboard update');
         res.send(results);
 
     }).catch(err => {
@@ -226,6 +246,7 @@ router.post("/users", function(req, res, next) {
 
     users.save(req.fields).then(results=>{ // passa os campos, cria promessa, passa os results do database
 
+        io.emit('dashboard update');
         res.send(results); // envia os results
 
     }).catch(err=>{
@@ -252,6 +273,7 @@ router.delete("/users/:id", function(req, res, next) {
 
     users.delete(req.params.id).then(results=>{ // passa os campos, cria promessa, passa os results do database
 
+        io.emit('dashboard update');
         res.send(results); // envia os results
 
     }).catch(err=>{
@@ -260,4 +282,5 @@ router.delete("/users/:id", function(req, res, next) {
 
 });
 
-module.exports = router;
+    return router;
+};
